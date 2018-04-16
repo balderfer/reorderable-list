@@ -48,12 +48,18 @@ export default class Index extends React.Component {
     }
   }
 
+  updateData(newData) {
+    this.setState({
+      data: newData
+    });
+  }
+
   render() {
     return (
       <div className="content">
         <h1>Index</h1>
 
-        <Block data={this.state.data}/>
+        <Block key={0} id={0} data={this.state.data} updateData={this.updateData.bind(this)}/>
       </div>
     );
   }
