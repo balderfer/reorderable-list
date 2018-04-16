@@ -1,12 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
 import ContentEditable from './ContentEditable.jsx'
+import Dropzone from './Dropzone.jsx'
 
 require('../styles/index.scss');
 
 export default class Block extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      canDrag: false
+    }
   }
 
   getClassName() {
@@ -35,6 +40,12 @@ export default class Block extends React.Component {
     this.props.updateData(newData, this.props.id);
   }
 
+  _startDrag() {
+    this.setState({
+      canDrag: true
+    })
+  }
+
   renderContent() {
     if (this.props.data.type === "bullet") {
       return (
@@ -42,6 +53,17 @@ export default class Block extends React.Component {
           onContentChange={this.onContentChange.bind(this)}
           text={this.props.data.text}
         />
+      );
+    }
+  }
+
+  renderLeftPad() {
+    if (this.props.data.type !== "base") {
+      //TODO on dropped in this dropzone it should append the dragged block after this block
+      return (
+        <div className="pad-left">
+          <Dropzone />
+        </div>
       );
     }
   }
@@ -54,12 +76,19 @@ export default class Block extends React.Component {
 
   render() {
     return (
-      <div className="block">
-        <div className="block-content">
-          {this.renderContent()}
+      <div className="block" draggable={this.state.canDrag ? true : false}>
+        {this.renderContent()}
+        <div className="block-children-container">
+          {this.renderLeftPad()}
+          <div className="block-children">
+            {this.renderChildren()}
+          </div>
         </div>
-        <div className={this.getClassName()}>
-          {this.renderChildren()}
+        <div className="block-actions">
+          <div
+            className="drag-handler"
+            onMouseDown={this._startDrag.bind(this)}
+          ></div>
         </div>
       </div>
     );

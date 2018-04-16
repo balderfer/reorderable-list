@@ -12,14 +12,51 @@ h1 {
   line-height: 1.1;
 }
 
-.block-children-container {
-  &.pad-left {
-    padding-left: 40px;
+.block {
+  position: relative;
+
+  > .block-actions {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: -28px;
+
+    > .drag-handler {
+      width: 20px;
+      height: 20px;
+      background-color: lightgray;
+    }
+  }
+
+  &:hover {
+    > .block-actions {
+      opacity: 1;
+    }
   }
 }
 
-p {
+.block-children-container {
+  display: flex;
+  flex-direction: row;
+
+  .pad-left {
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-right: 2px;
+  }
+}
+
+.contentBlock {
+  display: flex;
   font-size: 16px;
   line-height: 24px;
   -webkit-user-modify: read-write-plaintext-only;
+}
+
+.dropzone {
+  background: lightblue;
+  height: 4px;
+  width: 100%;
 }
