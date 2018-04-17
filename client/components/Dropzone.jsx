@@ -29,13 +29,15 @@ export default class Dropzone extends React.Component {
     this.setState({
       isHovered: false
     })
-    this.props.handleDrop();
+    if (this.props.active) {
+      this.props.handleDrop();
+    }
   }
 
   render() {
     return (
       <div
-        className={`dropzone ${this.props.isDragging || true ? 'show' : 'hide'}`}
+        className={`dropzone ${this.props.isDragging ? 'show' : 'hide'} ${this.props.active ? 'active' : 'inactive'}`}
         onDragEnter={this._onDragEnter.bind(this)}
         onDragOver={(e) => e.preventDefault()}
         onDragLeave={this._onDragLeave.bind(this)}

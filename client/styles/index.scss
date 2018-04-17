@@ -73,7 +73,7 @@ h1 {
   flex-direction: column;
   position: relative;
 
-  &.show {
+  &.show.active {
     .dropzone-indicator {
       height: 4px;
       width: 100%;

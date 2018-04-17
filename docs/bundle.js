@@ -961,11 +961,13 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     this.state = {
       isDragging: false,
       draggingContent: null,
+      path: null,
       data: {
         type: "base",
         children: [{
           type: "bullet",
-          text: "Douglas Englebart"
+          text: "Douglas Englebart",
+          children: []
         }, {
           type: "bullet",
           text: "Alan Kay",
@@ -974,33 +976,66 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             text: "Xerox PARC",
             children: [{
               type: "bullet",
-              text: "Dynabook"
+              text: "Dynabook",
+              children: []
             }, {
               type: "bullet",
-              text: "Smalltalk"
+              text: "Smalltalk",
+              children: []
             }]
           }, {
             type: "bullet",
-            text: "Viewpoints"
+            text: "Viewpoints",
+            children: []
           }]
         }, {
           type: "bullet",
-          text: "Bret Victor"
+          text: "Bret Victor",
+          children: []
         }]
       }
     };
   }
 
-  updateData(newData) {
+  // returns newData which has the block deleted.
+  // takes data which is the scoped data for that level of the tree
+  // takes path which is an array of indexes at which the block to be deleted is located
+  // while there is more than one index left we 
+  deleteBlock(data, path) {
+    if (path.length > 1) {
+      // pop and store the current index
+      var index = path.pop();
+      // recursively call deleteBlock with now popped path
+      var newChildData = this.deleteBlock(data.children[index], path);
+      var newData = Object.assign({}, data);
+      newData.children[index] = newChildData;
+      return newData;
+    } else {
+      console.log(data.children[path[0]]);
+      var newData = Object.assign({}, data);
+      newData.children.splice(path[0], 1);
+      return newData;
+    }
+  }
+
+  updateData(newData, id, shouldDelete) {
+    if (shouldDelete) {
+      console.log(`should delete ${this.state.path}`);
+      var path = this.state.path;
+      path.pop(); //ignoring the base container's index
+      newData = this.deleteBlock(newData, path);
+    }
     this.setState({
       data: newData
     });
   }
 
-  updateDragging(newDragging, draggingContent) {
+  updateDragging(newDragging, draggingContent, path) {
+    console.log(path);
     this.setState({
       isDragging: newDragging,
-      draggingContent: draggingContent
+      draggingContent: draggingContent,
+      path: path
     });
   }
 
@@ -1019,7 +1054,9 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         data: this.state.data,
         updateData: this.updateData.bind(this),
         isDragging: this.state.isDragging,
-        updateDragging: this.updateDragging.bind(this)
+        updateDragging: this.updateDragging.bind(this),
+        draggingContent: this.state.draggingContent,
+        parentIsDragging: false
       })
     );
   }
@@ -19613,7 +19650,8 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     super(props);
 
     this.state = {
-      canDrag: false
+      canDrag: false,
+      isBeingDragged: this.props.parentBeingDragged || false
     };
   }
 
@@ -19624,36 +19662,60 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   onContentChange(e) {
     var newData = Object.assign({}, this.props.data);
     newData.text = e.target["innerText"];
-    this.props.updateData(newData, this.props.id);
+    this.props.updateData(newData, this.props.id, false);
   }
 
-  updateData(newChildData, id) {
+  updateData(newChildData, id, shouldDelete) {
     var newData = Object.assign({}, this.props.data);
     newData.children[id] = newChildData;
-    this.props.updateData(newData, this.props.id);
+    this.props.updateData(newData, this.props.id, shouldDelete);
+  }
+
+  handleAppendAfter(id) {
+    console.log(`put ${this.props.draggingContent.text} inside of ${this.props.data.text}`);
+    var newData = Object.assign({}, this.props.data);
+    newData.children.splice(id + 1, 0, this.props.draggingContent);
+    this.props.updateData(newData, this.props.id, true);
+  }
+
+  updateDragging(newDragging, draggingContent, path) {
+    path.push(this.props.id);
+    this.props.updateDragging(newDragging, draggingContent, path);
   }
 
   _startDrag() {
     console.log("start drag");
     this.setState({
-      canDrag: true
+      canDrag: true,
+      isBeingDragged: true
     });
-    this.props.updateDragging(true, this.props.data);
+    this.props.updateDragging(true, this.props.data, [this.props.id]);
   }
 
   _stopDrag() {
     this.setState({
-      canDrag: false
+      canDrag: false,
+      isBeingDragged: false
     });
-    this.props.updateDragging(false, null);
+    this.props.updateDragging(false, null, [this.props.id]);
   }
 
   _appendAfter() {
     console.log(`append after: ${this.props.data.text}`);
+    this.props.handleAppendAfter(this.props.id);
   }
 
   _appendFirstChild() {
-    console.log(`append within: ${this.props.data.text}`);
+    console.log(`append within: ${this.props.data.text || 'base'}`);
+    var newData = Object.assign({}, this.props.data);
+    newData.children.unshift(this.props.draggingContent);
+    this.props.updateData(newData, this.props.id, true);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      isBeingDragged: nextProps.parentBeingDragged || prevState.isBeingDragged
+    };
   }
 
   renderContent() {
@@ -19684,14 +19746,30 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'pad-left' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], { isDragging: this.props.isDragging, handleDrop: this._appendAfter.bind(this) })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], {
+          isDragging: this.props.isDragging,
+          active: !this.props.parentBeingDragged,
+          handleDrop: this._appendAfter.bind(this)
+        })
       );
     }
   }
 
   renderChildren() {
     if (this.props.data.children) {
-      return this.props.data.children.map((blockData, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Block, { key: i, id: i, data: blockData, updateData: this.updateData.bind(this), updateDragging: this.props.updateDragging, isDragging: this.props.isDragging }));
+      return this.props.data.children.map((blockData, i) => {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Block, {
+          key: i,
+          id: i,
+          data: blockData,
+          updateData: this.updateData.bind(this),
+          updateDragging: this.updateDragging.bind(this),
+          isDragging: this.props.isDragging,
+          handleAppendAfter: this.handleAppendAfter.bind(this),
+          draggingContent: this.props.draggingContent,
+          parentBeingDragged: this.state.isBeingDragged
+        });
+      });
     }
   }
 
@@ -19707,7 +19785,11 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'block-children' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], { isDragging: this.props.isDragging, handleDrop: this._appendFirstChild.bind(this) }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], {
+            isDragging: this.props.isDragging,
+            active: !this.state.isBeingDragged,
+            handleDrop: this._appendFirstChild.bind(this)
+          }),
           this.renderChildren()
         )
       )
@@ -19726,7 +19808,7 @@ exports = module.exports = __webpack_require__(29)(false);
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 960px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block-content {\n  position: relative;\n  background: pink;\n  height: 24px;\n  -webkit-user-drag: element; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    left: -20px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 16px;\n      height: 24px;\n      cursor: -webkit-grab;\n      background-color: lightgray;\n      z-index: 20; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    padding-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  -webkit-user-modify: read-write-plaintext-only; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.show .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: lightblue; }\n    .dropzone.show .dropzone-indicator.hover {\n      background: blue; }\n  .dropzone.show .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.show .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.hide {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 960px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block-content {\n  position: relative;\n  background: pink;\n  height: 24px;\n  -webkit-user-drag: element; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    left: -20px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 16px;\n      height: 24px;\n      cursor: -webkit-grab;\n      background-color: lightgray;\n      z-index: 20; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    padding-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  -webkit-user-modify: read-write-plaintext-only; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.show.active .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: lightblue; }\n    .dropzone.show.active .dropzone-indicator.hover {\n      background: blue; }\n  .dropzone.show.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.show.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.hide {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
 
 // exports
 
@@ -20308,14 +20390,16 @@ class Dropzone extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     this.setState({
       isHovered: false
     });
-    this.props.handleDrop();
+    if (this.props.active) {
+      this.props.handleDrop();
+    }
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       {
-        className: `dropzone ${this.props.isDragging || true ? 'show' : 'hide'}`,
+        className: `dropzone ${this.props.isDragging ? 'show' : 'hide'} ${this.props.active ? 'active' : 'inactive'}`,
         onDragEnter: this._onDragEnter.bind(this),
         onDragOver: e => e.preventDefault(),
         onDragLeave: this._onDragLeave.bind(this),
