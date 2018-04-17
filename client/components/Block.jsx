@@ -20,16 +20,6 @@ export default class Block extends React.Component {
 
   onContentChange(e) {
     var newData = Object.assign({}, this.props.data);
-    console.log(e.target.innerHTML);
-
-    // Attempts to get the caret position
-    var caretOffset = 0;
-    var range = window.getSelection().getRangeAt(0);
-    var preCaretRange = range.cloneRange();
-    preCaretRange.selectNodeContents(e.target);
-    preCaretRange.setEnd(range.endContainer, range.endOffset);
-    caretOffset = preCaretRange.toString().length;
-
     newData.text = e.target["innerText"];
     this.props.updateData(newData, this.props.id);
   }
@@ -41,18 +31,44 @@ export default class Block extends React.Component {
   }
 
   _startDrag() {
+    console.log("start drag");
     this.setState({
       canDrag: true
-    })
+    });
+    this.props.updateDragging(true, this.props.data);
+  }
+
+  _stopDrag() {
+    this.setState({
+      canDrag: false
+    });
+    this.props.updateDragging(false, null);
+  }
+
+  _appendAfter() {
+    console.log(`append after: ${this.props.data.text}`);
+  }
+
+  _appendFirstChild() {
+    console.log(`append within: ${this.props.data.text}`);
   }
 
   renderContent() {
     if (this.props.data.type === "bullet") {
       return (
-        <ContentEditable
-          onContentChange={this.onContentChange.bind(this)}
-          text={this.props.data.text}
-        />
+        <div
+          className="block-content"
+          onDragStart={this._startDrag.bind(this)}
+          onDragEnd={this._stopDrag.bind(this)}
+        >
+          <ContentEditable
+            onContentChange={this.onContentChange.bind(this)}
+            text={this.props.data.text}
+          />
+          <div className={`block-actions ${this.props.isDragging ? 'dragging' : ''}`}>
+            <div className="drag-handler"></div>
+          </div>
+        </div>
       );
     }
   }
@@ -62,7 +78,7 @@ export default class Block extends React.Component {
       //TODO on dropped in this dropzone it should append the dragged block after this block
       return (
         <div className="pad-left">
-          <Dropzone />
+          <Dropzone isDragging={this.props.isDragging} handleDrop={this._appendAfter.bind(this)}/>
         </div>
       );
     }
@@ -70,7 +86,7 @@ export default class Block extends React.Component {
 
   renderChildren() {
     if (this.props.data.children) {
-      return this.props.data.children.map((blockData, i) => <Block key={i} id={i} data={blockData} updateData={this.updateData.bind(this)}/>);
+      return this.props.data.children.map((blockData, i) => <Block key={i} id={i} data={blockData} updateData={this.updateData.bind(this)} updateDragging={this.props.updateDragging} isDragging={this.props.isDragging}/>);
     }
   }
 
@@ -81,14 +97,9 @@ export default class Block extends React.Component {
         <div className="block-children-container">
           {this.renderLeftPad()}
           <div className="block-children">
+            <Dropzone isDragging={this.props.isDragging} handleDrop={this._appendFirstChild.bind(this)}/>
             {this.renderChildren()}
           </div>
-        </div>
-        <div className="block-actions">
-          <div
-            className="drag-handler"
-            onMouseDown={this._startDrag.bind(this)}
-          ></div>
         </div>
       </div>
     );

@@ -8,6 +8,8 @@ export default class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDragging: false,
+      draggingContent: null,
       data: {
         type: "base",
         children: [
@@ -54,12 +56,26 @@ export default class Index extends React.Component {
     });
   }
 
+  updateDragging(newDragging, draggingContent) {
+    this.setState({
+      isDragging: newDragging,
+      draggingContent: draggingContent
+    });
+  }
+
   render() {
     return (
       <div className="content">
         <h1>Index</h1>
 
-        <Block key={0} id={0} data={this.state.data} updateData={this.updateData.bind(this)}/>
+        <Block
+          key={0}
+          id={0}
+          data={this.state.data}
+          updateData={this.updateData.bind(this)}
+          isDragging={this.state.isDragging}
+          updateDragging={this.updateDragging.bind(this)}
+        />
       </div>
     );
   }

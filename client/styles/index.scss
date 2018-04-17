@@ -12,24 +12,30 @@ h1 {
   line-height: 1.1;
 }
 
-.block {
+.block-content {
   position: relative;
+  background: pink;
+  height: 24px;
+  -webkit-user-drag: element;
 
   > .block-actions {
     opacity: 0;
     position: absolute;
     top: 0;
-    left: -28px;
+    left: -20px;
+    z-index: 20;
 
     > .drag-handler {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 24px;
+      cursor: -webkit-grab;
       background-color: lightgray;
+      z-index: 20;
     }
   }
 
   &:hover {
-    > .block-actions {
+    > .block-actions:not(.dragging) {
       opacity: 1;
     }
   }
@@ -46,9 +52,13 @@ h1 {
     justify-content: flex-end;
     padding-right: 2px;
   }
+
+  .block-children {
+    flex: 1;
+  }
 }
 
-.contentBlock {
+.editable-content {
   display: flex;
   font-size: 16px;
   line-height: 24px;
@@ -56,7 +66,47 @@ h1 {
 }
 
 .dropzone {
-  background: lightblue;
-  height: 4px;
-  width: 100%;
+  // height: 100%;
+  // width: 100%;
+  min-height: 4px;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+
+  &.show {
+    .dropzone-indicator {
+      height: 4px;
+      width: 100%;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      background: lightblue;
+      
+      &.hover {
+        background: blue;
+      }
+    }
+
+    
+    .dropzone-area {
+      background: lightblue;
+      opacity: 0;
+      width: 100%;
+      position: absolute;
+      top: -12px;
+      bottom: -12px;
+      z-index: 10;
+
+      &.hover {
+        opacity: 0;
+        background: blue;
+      }
+    }
+  }
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
 }

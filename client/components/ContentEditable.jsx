@@ -15,7 +15,7 @@ export default class Block extends React.Component {
   render() {
     return (
       <div
-        className="contentBlock"
+        className="editable-content"
         ref={(elem) => { this.elem = elem }}
         contentEditable="true"
         suppressContentEditableWarning

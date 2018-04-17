@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(15);
-} else {
   module.exports = __webpack_require__(16);
+} else {
+  module.exports = __webpack_require__(17);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -436,6 +436,83 @@ module.exports = emptyObject;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+function checkDCE() {
+  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+  if (
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
+  ) {
+    return;
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    // This branch is unreachable because this function is only called
+    // in production, but the condition is true only in development.
+    // Therefore if the branch is still here, dead code elimination wasn't
+    // properly applied.
+    // Don't change the message. React DevTools relies on it. Also make sure
+    // this message doesn't occur elsewhere in this function, or it will cause
+    // a false positive.
+    throw new Error('^_^');
+  }
+  try {
+    // Verify that the code above has been dead code eliminated (DCE'd).
+    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
+  } catch (err) {
+    // DevTools shouldn't crash React, no matter what.
+    // We should still report in case we break this code.
+    console.error(err);
+  }
+}
+
+if (process.env.NODE_ENV === 'production') {
+  // DCE check should happen before ReactDOM bundle executes so that
+  // DevTools can report bad minification during injection.
+  checkDCE();
+  module.exports = __webpack_require__(19);
+} else {
+  module.exports = __webpack_require__(22);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(28);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(30)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./index.scss", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./index.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -492,7 +569,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -561,83 +638,6 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-function checkDCE() {
-  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
-  if (
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
-  ) {
-    return;
-  }
-  if (process.env.NODE_ENV !== 'production') {
-    // This branch is unreachable because this function is only called
-    // in production, but the condition is true only in development.
-    // Therefore if the branch is still here, dead code elimination wasn't
-    // properly applied.
-    // Don't change the message. React DevTools relies on it. Also make sure
-    // this message doesn't occur elsewhere in this function, or it will cause
-    // a false positive.
-    throw new Error('^_^');
-  }
-  try {
-    // Verify that the code above has been dead code eliminated (DCE'd).
-    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
-  } catch (err) {
-    // DevTools shouldn't crash React, no matter what.
-    // We should still report in case we break this code.
-    console.error(err);
-  }
-}
-
-if (process.env.NODE_ENV === 'production') {
-  // DCE check should happen before ReactDOM bundle executes so that
-  // DevTools can report bad minification during injection.
-  checkDCE();
-  module.exports = __webpack_require__(18);
-} else {
-  module.exports = __webpack_require__(21);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(28);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(30)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./index.scss", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./index.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -652,9 +652,9 @@ if(false) {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
-  var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(17);
+  var invariant = __webpack_require__(7);
+  var warning = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 }
 
@@ -872,7 +872,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(19);
+var isTextNode = __webpack_require__(20);
 
 /*eslint-disable no-bitwise */
 
@@ -904,22 +904,63 @@ module.exports = containsNode;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+
+
+
+__webpack_require__(6);
+
+class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.text !== this.elem["innerText"];
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
+      className: 'editable-content',
+      ref: elem => {
+        this.elem = elem;
+      },
+      contentEditable: 'true',
+      suppressContentEditableWarning: true,
+      onInput: this.props.onContentChange.bind(this),
+      dangerouslySetInnerHTML: { __html: this.props.text }
+    });
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Block;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__ = __webpack_require__(27);
 
 
 
 
-__webpack_require__(8);
+__webpack_require__(6);
 
 class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDragging: false,
+      draggingContent: null,
       data: {
         type: "base",
         children: [{
@@ -956,6 +997,13 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     });
   }
 
+  updateDragging(newDragging, draggingContent) {
+    this.setState({
+      isDragging: newDragging,
+      draggingContent: draggingContent
+    });
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
@@ -965,7 +1013,14 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         null,
         'Index'
       ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__["a" /* default */], { key: 0, id: 0, data: this.state.data, updateData: this.updateData.bind(this) })
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__["a" /* default */], {
+        key: 0,
+        id: 0,
+        data: this.state.data,
+        updateData: this.updateData.bind(this),
+        isDragging: this.state.isDragging,
+        updateDragging: this.updateDragging.bind(this)
+      })
     );
   }
 }
@@ -975,7 +1030,7 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Index, null), document.getElementById('root'));
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1004,7 +1059,7 @@ module.exports=X["default"]?X["default"]:X;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1027,8 +1082,8 @@ if (process.env.NODE_ENV !== "production") {
 
 var _assign = __webpack_require__(3);
 var emptyObject = __webpack_require__(4);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
 var emptyFunction = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(9);
 
@@ -2421,7 +2476,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2440,7 +2495,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2692,7 +2747,7 @@ ReactDOMEventListener:Zd},unstable_createRoot:function(a,b){return new sg(a,!0,n
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2707,7 +2762,7 @@ ReactDOMEventListener:Zd},unstable_createRoot:function(a,b){return new sg(a,!0,n
  * @typechecks
  */
 
-var isNode = __webpack_require__(20);
+var isNode = __webpack_require__(21);
 
 /**
  * @param {*} object The object to check.
@@ -2720,7 +2775,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2748,7 +2803,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2770,8 +2825,8 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(1);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(10);
 var _assign = __webpack_require__(3);
 var emptyFunction = __webpack_require__(2);
@@ -2780,8 +2835,8 @@ var getActiveElement = __webpack_require__(11);
 var shallowEqual = __webpack_require__(12);
 var containsNode = __webpack_require__(13);
 var emptyObject = __webpack_require__(4);
-var hyphenateStyleName = __webpack_require__(22);
-var camelizeStyleName = __webpack_require__(24);
+var hyphenateStyleName = __webpack_require__(23);
+var camelizeStyleName = __webpack_require__(25);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -19380,7 +19435,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19395,7 +19450,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(23);
+var hyphenate = __webpack_require__(24);
 
 var msPattern = /^ms-/;
 
@@ -19422,7 +19477,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19458,7 +19513,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19473,7 +19528,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(25);
+var camelize = __webpack_require__(26);
 
 var msPattern = /^-ms-/;
 
@@ -19501,7 +19556,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19536,22 +19591,22 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__ = __webpack_require__(32);
 
 
 
 
 
-__webpack_require__(8);
+__webpack_require__(6);
 
 class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
@@ -19568,16 +19623,6 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
   onContentChange(e) {
     var newData = Object.assign({}, this.props.data);
-    console.log(e.target.innerHTML);
-
-    // Attempts to get the caret position
-    var caretOffset = 0;
-    var range = window.getSelection().getRangeAt(0);
-    var preCaretRange = range.cloneRange();
-    preCaretRange.selectNodeContents(e.target);
-    preCaretRange.setEnd(range.endContainer, range.endOffset);
-    caretOffset = preCaretRange.toString().length;
-
     newData.text = e.target["innerText"];
     this.props.updateData(newData, this.props.id);
   }
@@ -19589,17 +19634,47 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   _startDrag() {
+    console.log("start drag");
     this.setState({
       canDrag: true
     });
+    this.props.updateDragging(true, this.props.data);
+  }
+
+  _stopDrag() {
+    this.setState({
+      canDrag: false
+    });
+    this.props.updateDragging(false, null);
+  }
+
+  _appendAfter() {
+    console.log(`append after: ${this.props.data.text}`);
+  }
+
+  _appendFirstChild() {
+    console.log(`append within: ${this.props.data.text}`);
   }
 
   renderContent() {
     if (this.props.data.type === "bullet") {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__["a" /* default */], {
-        onContentChange: this.onContentChange.bind(this),
-        text: this.props.data.text
-      });
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        {
+          className: 'block-content',
+          onDragStart: this._startDrag.bind(this),
+          onDragEnd: this._stopDrag.bind(this)
+        },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__["a" /* default */], {
+          onContentChange: this.onContentChange.bind(this),
+          text: this.props.data.text
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: `block-actions ${this.props.isDragging ? 'dragging' : ''}` },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'drag-handler' })
+        )
+      );
     }
   }
 
@@ -19609,14 +19684,14 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'pad-left' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], null)
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], { isDragging: this.props.isDragging, handleDrop: this._appendAfter.bind(this) })
       );
     }
   }
 
   renderChildren() {
     if (this.props.data.children) {
-      return this.props.data.children.map((blockData, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Block, { key: i, id: i, data: blockData, updateData: this.updateData.bind(this) }));
+      return this.props.data.children.map((blockData, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Block, { key: i, id: i, data: blockData, updateData: this.updateData.bind(this), updateDragging: this.props.updateDragging, isDragging: this.props.isDragging }));
     }
   }
 
@@ -19632,57 +19707,11 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'block-children' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__["a" /* default */], { isDragging: this.props.isDragging, handleDrop: this._appendFirstChild.bind(this) }),
           this.renderChildren()
         )
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'block-actions' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
-          className: 'drag-handler',
-          onMouseDown: this._startDrag.bind(this)
-        })
       )
     );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Block;
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-
-
-
-__webpack_require__(8);
-
-class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.text !== this.elem["innerText"];
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
-      className: 'contentBlock',
-      ref: elem => {
-        this.elem = elem;
-      },
-      contentEditable: 'true',
-      suppressContentEditableWarning: true,
-      onInput: this.props.onContentChange.bind(this),
-      dangerouslySetInnerHTML: { __html: this.props.text }
-    });
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Block;
@@ -19697,7 +19726,7 @@ exports = module.exports = __webpack_require__(29)(false);
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 960px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block {\n  position: relative; }\n  .block > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    left: -28px; }\n    .block > .block-actions > .drag-handler {\n      width: 20px;\n      height: 20px;\n      background-color: lightgray; }\n  .block:hover > .block-actions {\n    opacity: 1; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    padding-right: 2px; }\n\n.contentBlock {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  -webkit-user-modify: read-write-plaintext-only; }\n\n.dropzone {\n  background: lightblue;\n  height: 4px;\n  width: 100%; }\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 960px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block-content {\n  position: relative;\n  background: pink;\n  height: 24px;\n  -webkit-user-drag: element; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    left: -20px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 16px;\n      height: 24px;\n      cursor: -webkit-grab;\n      background-color: lightgray;\n      z-index: 20; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    padding-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  -webkit-user-modify: read-write-plaintext-only; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.show .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: lightblue; }\n    .dropzone.show .dropzone-indicator.hover {\n      background: blue; }\n  .dropzone.show .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.show .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.hide {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
 
 // exports
 
@@ -20245,22 +20274,56 @@ module.exports = function (css) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(14);
 
 
 
 
-__webpack_require__(8);
+__webpack_require__(6);
 
 class Dropzone extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isHovered: false
+    };
+  }
+
+  _onDragEnter(e) {
+    this.setState({
+      isHovered: true
+    });
+  }
+
+  _onDragLeave(e) {
+    this.setState({
+      isHovered: false
+    });
+  }
+
+  _onDrop(e) {
+    this.setState({
+      isHovered: false
+    });
+    this.props.handleDrop();
   }
 
   render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'dropzone' });
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      {
+        className: `dropzone ${this.props.isDragging || true ? 'show' : 'hide'}`,
+        onDragEnter: this._onDragEnter.bind(this),
+        onDragOver: e => e.preventDefault(),
+        onDragLeave: this._onDragLeave.bind(this),
+        onDrop: this._onDrop.bind(this)
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: `dropzone-area ${this.state.isHovered ? 'hover' : ''}` }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: `dropzone-indicator ${this.state.isHovered ? 'hover' : ''}` })
+    );
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Dropzone;
