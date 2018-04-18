@@ -62,12 +62,9 @@ h1 {
   display: flex;
   font-size: 16px;
   line-height: 24px;
-  -webkit-user-modify: read-write-plaintext-only;
 }
 
 .dropzone {
-  // height: 100%;
-  // width: 100%;
   min-height: 4px;
   flex: 1;
   flex-direction: column;

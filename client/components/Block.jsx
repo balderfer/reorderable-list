@@ -15,41 +15,45 @@ export default class Block extends React.Component {
     }
   }
 
-  getClassName() {
-    return this.props.data.type === "base" ? "block-children-container" : "block-children-container pad-left"
-  }
-
   onContentChange(e) {
     var newData = Object.assign({}, this.props.data);
     newData.text = e.target["innerText"];
-    this.props.updateData(newData, this.props.id, false);
+    this.props.updateData(newData, this.props.id, false, [this.props.id]);
   }
 
-  updateData(newChildData, id, shouldDelete) {
+  updateData(newChildData, id, shouldDelete, newBlockPath) {
     var newData = Object.assign({}, this.props.data);
-    newData.children[id] = newChildData;
-    this.props.updateData(newData, this.props.id, shouldDelete);
+
+    if (newChildData !== null) {
+      newData.children[id] = newChildData;
+    } else {
+      // console.log(newData.children.slice())
+      // console.log(this.props.addedAtPath)
+      console.log(newData.children)
+      newData.children.splice(id, 1);
+    }
+
+    newBlockPath.push(this.props.id);
+    this.props.updateData(newData, this.props.id, shouldDelete, newBlockPath);
   }
 
   handleAppendAfter(id) {
-    console.log(`put ${this.props.draggingContent.text} inside of ${this.props.data.text}`);
     var newData = Object.assign({}, this.props.data);
     newData.children.splice(id + 1, 0, this.props.draggingContent);
-    this.props.updateData(newData, this.props.id, true);
+    this.props.updateData(newData, this.props.id, true, [id, this.props.id]);
   }
 
   updateDragging(newDragging, draggingContent, path) {
-    path.push(this.props.id);
+    path.push(this.props.data.id);
     this.props.updateDragging(newDragging, draggingContent, path);
   }
 
   _startDrag() {
-    console.log("start drag");
     this.setState({
       canDrag: true,
       isBeingDragged: true
     });
-    this.props.updateDragging(true, this.props.data, [this.props.id]);
+    this.props.updateDragging(true, Object.assign({}, this.props.data), [this.props.data.id]);
   }
 
   _stopDrag() {
@@ -61,15 +65,13 @@ export default class Block extends React.Component {
   }
 
   _appendAfter() {
-    console.log(`append after: ${this.props.data.text}`);
     this.props.handleAppendAfter(this.props.id);
   }
 
   _appendFirstChild() {
-    console.log(`append within: ${this.props.data.text || 'base'}`);
     var newData = Object.assign({}, this.props.data);
     newData.children.unshift(this.props.draggingContent);
-    this.props.updateData(newData, this.props.id, true);
+    this.props.updateData(newData, this.props.id, true, [0, this.props.id]);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -99,7 +101,7 @@ export default class Block extends React.Component {
   }
 
   renderLeftPad() {
-    if (this.props.data.type !== "base") {
+    if (this.props.data.type !== "page") {
       //TODO on dropped in this dropzone it should append the dragged block after this block
       return (
         <div className="pad-left">
@@ -127,6 +129,7 @@ export default class Block extends React.Component {
             handleAppendAfter={this.handleAppendAfter.bind(this)}
             draggingContent={this.props.draggingContent}
             parentBeingDragged={this.state.isBeingDragged}
+            addedAtPath={this.props.addedAtPath}
           />
         );
       })

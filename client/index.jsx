@@ -12,28 +12,34 @@ export default class Index extends React.Component {
       draggingContent: null,
       path: null,
       data: {
-        type: "base",
+        type: "page",
+        id: "1234",
         children: [
           {
             type: "bullet",
+            id: "1235",
             text: "Douglas Englebart",
             children: []
           },
           {
             type: "bullet",
+            id: "1236",
             text: "Alan Kay",
             children: [
               {
                 type: "bullet",
+                id: "1237",
                 text: "Xerox PARC",
                 children: [
                   {
                     type: "bullet",
+                    id: "1238",
                     text: "Dynabook",
                     children: []
                   },
                   {
                     type: "bullet",
+                    id: "1239",
                     text: "Smalltalk",
                     children: []
                   }
@@ -41,6 +47,7 @@ export default class Index extends React.Component {
               },
               {
                 type: "bullet",
+                id: "1240",
                 text: "Viewpoints",
                 children: []
               }
@@ -48,6 +55,7 @@ export default class Index extends React.Component {
           },
           {
             type: "bullet",
+            id: "1241",
             text: "Bret Victor",
             children: []
           }
@@ -60,7 +68,7 @@ export default class Index extends React.Component {
   // takes data which is the scoped data for that level of the tree
   // takes path which is an array of indexes at which the block to be deleted is located
   // while there is more than one index left we 
-  deleteBlock(data, path) {
+  deleteBlock(data, path, newBlockPath) {
     if (path.length > 1) {
       // pop and store the current index
       var index = path.pop();
@@ -78,12 +86,14 @@ export default class Index extends React.Component {
 
   }
 
-  updateData(newData, id, shouldDelete) {
+  updateData(newData, id, shouldDelete, newBlockPath) {
     if (shouldDelete) {
-      console.log(`should delete ${this.state.path}`)
-      var path = this.state.path;
-      path.pop(); //ignoring the base container's index
-      newData = this.deleteBlock(newData, path);
+    //   console.log(`should delete ${this.state.path}`);
+    //   console.log(`block added at ${newBlockPath}`);
+    //   var path = this.state.path;
+    //   path.pop(); //ignoring the base container's index
+    //   newBlockPath.pop();
+    //   // newData = this.deleteBlock(newData, path, newBlockPath);
     }
     this.setState({
       data: newData
@@ -113,6 +123,7 @@ export default class Index extends React.Component {
           updateDragging={this.updateDragging.bind(this)}
           draggingContent={this.state.draggingContent}
           parentIsDragging={false}
+          addedAtPath={this.state.path}
         />
       </div>
     );

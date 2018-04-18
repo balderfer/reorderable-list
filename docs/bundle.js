@@ -60,11 +60,150 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__ = __webpack_require__(27);
+
+
+
+
+__webpack_require__(7);
+
+class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDragging: false,
+      draggingContent: null,
+      path: null,
+      data: {
+        type: "page",
+        id: "1234",
+        children: [{
+          type: "bullet",
+          id: "1235",
+          text: "Douglas Englebart",
+          children: []
+        }, {
+          type: "bullet",
+          id: "1236",
+          text: "Alan Kay",
+          children: [{
+            type: "bullet",
+            id: "1237",
+            text: "Xerox PARC",
+            children: [{
+              type: "bullet",
+              id: "1238",
+              text: "Dynabook",
+              children: []
+            }, {
+              type: "bullet",
+              id: "1239",
+              text: "Smalltalk",
+              children: []
+            }]
+          }, {
+            type: "bullet",
+            id: "1240",
+            text: "Viewpoints",
+            children: []
+          }]
+        }, {
+          type: "bullet",
+          id: "1241",
+          text: "Bret Victor",
+          children: []
+        }]
+      }
+    };
+  }
+
+  // returns newData which has the block deleted.
+  // takes data which is the scoped data for that level of the tree
+  // takes path which is an array of indexes at which the block to be deleted is located
+  // while there is more than one index left we 
+  deleteBlock(data, path, newBlockPath) {
+    if (path.length > 1) {
+      // pop and store the current index
+      var index = path.pop();
+      // recursively call deleteBlock with now popped path
+      var newChildData = this.deleteBlock(data.children[index], path);
+      var newData = Object.assign({}, data);
+      newData.children[index] = newChildData;
+      return newData;
+    } else {
+      console.log(data.children[path[0]]);
+      var newData = Object.assign({}, data);
+      newData.children.splice(path[0], 1);
+      return newData;
+    }
+  }
+
+  updateData(newData, id, shouldDelete, newBlockPath) {
+    if (shouldDelete) {
+      //   console.log(`should delete ${this.state.path}`);
+      //   console.log(`block added at ${newBlockPath}`);
+      //   var path = this.state.path;
+      //   path.pop(); //ignoring the base container's index
+      //   newBlockPath.pop();
+      //   // newData = this.deleteBlock(newData, path, newBlockPath);
+    }
+    this.setState({
+      data: newData
+    });
+  }
+
+  updateDragging(newDragging, draggingContent, path) {
+    console.log(path);
+    this.setState({
+      isDragging: newDragging,
+      draggingContent: draggingContent,
+      path: path
+    });
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'content' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h1',
+        null,
+        'Index'
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__["a" /* default */], {
+        key: 0,
+        id: 0,
+        data: this.state.data,
+        updateData: this.updateData.bind(this),
+        isDragging: this.state.isDragging,
+        updateDragging: this.updateDragging.bind(this),
+        draggingContent: this.state.draggingContent,
+        parentIsDragging: false,
+        addedAtPath: this.state.path
+      })
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["default"] = Index;
+
+
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Index, null), document.getElementById('root'));
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -254,7 +393,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -266,10 +405,10 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(17);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -311,7 +450,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -408,7 +547,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -429,10 +568,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -475,10 +614,10 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(22);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -509,7 +648,7 @@ if(false) {
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -566,10 +705,10 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -583,7 +722,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(2);
+var emptyFunction = __webpack_require__(3);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -635,10 +774,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -652,8 +791,8 @@ module.exports = warning;
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(7);
-  var warning = __webpack_require__(8);
+  var invariant = __webpack_require__(8);
+  var warning = __webpack_require__(9);
   var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 }
@@ -702,10 +841,10 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -744,7 +883,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -786,7 +925,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -857,7 +996,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -900,18 +1039,18 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 
 
 
-__webpack_require__(6);
+__webpack_require__(7);
 
 class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
@@ -939,134 +1078,6 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__ = __webpack_require__(27);
-
-
-
-
-__webpack_require__(6);
-
-class Index extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isDragging: false,
-      draggingContent: null,
-      path: null,
-      data: {
-        type: "base",
-        children: [{
-          type: "bullet",
-          text: "Douglas Englebart",
-          children: []
-        }, {
-          type: "bullet",
-          text: "Alan Kay",
-          children: [{
-            type: "bullet",
-            text: "Xerox PARC",
-            children: [{
-              type: "bullet",
-              text: "Dynabook",
-              children: []
-            }, {
-              type: "bullet",
-              text: "Smalltalk",
-              children: []
-            }]
-          }, {
-            type: "bullet",
-            text: "Viewpoints",
-            children: []
-          }]
-        }, {
-          type: "bullet",
-          text: "Bret Victor",
-          children: []
-        }]
-      }
-    };
-  }
-
-  // returns newData which has the block deleted.
-  // takes data which is the scoped data for that level of the tree
-  // takes path which is an array of indexes at which the block to be deleted is located
-  // while there is more than one index left we 
-  deleteBlock(data, path) {
-    if (path.length > 1) {
-      // pop and store the current index
-      var index = path.pop();
-      // recursively call deleteBlock with now popped path
-      var newChildData = this.deleteBlock(data.children[index], path);
-      var newData = Object.assign({}, data);
-      newData.children[index] = newChildData;
-      return newData;
-    } else {
-      console.log(data.children[path[0]]);
-      var newData = Object.assign({}, data);
-      newData.children.splice(path[0], 1);
-      return newData;
-    }
-  }
-
-  updateData(newData, id, shouldDelete) {
-    if (shouldDelete) {
-      console.log(`should delete ${this.state.path}`);
-      var path = this.state.path;
-      path.pop(); //ignoring the base container's index
-      newData = this.deleteBlock(newData, path);
-    }
-    this.setState({
-      data: newData
-    });
-  }
-
-  updateDragging(newDragging, draggingContent, path) {
-    console.log(path);
-    this.setState({
-      isDragging: newDragging,
-      draggingContent: draggingContent,
-      path: path
-    });
-  }
-
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'content' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h1',
-        null,
-        'Index'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Block_jsx__["a" /* default */], {
-        key: 0,
-        id: 0,
-        data: this.state.data,
-        updateData: this.updateData.bind(this),
-        isDragging: this.state.isDragging,
-        updateDragging: this.updateDragging.bind(this),
-        draggingContent: this.state.draggingContent,
-        parentIsDragging: false
-      })
-    );
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["default"] = Index;
-
-
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Index, null), document.getElementById('root'));
-
-/***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1080,7 +1091,7 @@ __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(3),n=__webpack_require__(4),p=__webpack_require__(2),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.portal"):60106,u=q?Symbol["for"]("react.fragment"):60107,v=q?Symbol["for"]("react.strict_mode"):60108,w=q?Symbol["for"]("react.provider"):60109,x=q?Symbol["for"]("react.context"):60110,y=q?Symbol["for"]("react.async_mode"):60111,z=q?Symbol["for"]("react.forward_ref"):60112,A="function"===
+var m=__webpack_require__(4),n=__webpack_require__(5),p=__webpack_require__(3),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.portal"):60106,u=q?Symbol["for"]("react.fragment"):60107,v=q?Symbol["for"]("react.strict_mode"):60108,w=q?Symbol["for"]("react.provider"):60109,x=q?Symbol["for"]("react.context"):60110,y=q?Symbol["for"]("react.async_mode"):60111,z=q?Symbol["for"]("react.forward_ref"):60112,A="function"===
 typeof Symbol&&Symbol.iterator;function B(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var C={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function D(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||C}D.prototype.isReactComponent={};D.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?B("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};D.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function E(){}
 E.prototype=D.prototype;function F(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||C}var G=F.prototype=new E;G.constructor=F;m(G,D.prototype);G.isPureReactComponent=!0;var H={current:null},I=Object.prototype.hasOwnProperty,J={key:!0,ref:!0,__self:!0,__source:!0};
@@ -1117,12 +1128,12 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(3);
-var emptyObject = __webpack_require__(4);
-var invariant = __webpack_require__(7);
-var warning = __webpack_require__(8);
-var emptyFunction = __webpack_require__(2);
-var checkPropTypes = __webpack_require__(9);
+var _assign = __webpack_require__(4);
+var emptyObject = __webpack_require__(5);
+var invariant = __webpack_require__(8);
+var warning = __webpack_require__(9);
+var emptyFunction = __webpack_require__(3);
+var checkPropTypes = __webpack_require__(10);
 
 // TODO: this is special because it gets imported during build.
 
@@ -2510,7 +2521,7 @@ module.exports = react;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 18 */
@@ -2548,7 +2559,7 @@ module.exports = ReactPropTypesSecret;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var ba=__webpack_require__(1),m=__webpack_require__(10),A=__webpack_require__(3),C=__webpack_require__(2),ea=__webpack_require__(11),fa=__webpack_require__(12),ha=__webpack_require__(13),ja=__webpack_require__(4);
+var ba=__webpack_require__(2),m=__webpack_require__(11),A=__webpack_require__(4),C=__webpack_require__(3),ea=__webpack_require__(12),fa=__webpack_require__(13),ha=__webpack_require__(14),ja=__webpack_require__(5);
 function D(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}ba?void 0:D("227");
 function ka(a,b,c,d,e,f,h,g,k){this._hasCaughtError=!1;this._caughtError=null;var v=Array.prototype.slice.call(arguments,3);try{b.apply(c,v)}catch(l){this._caughtError=l,this._hasCaughtError=!0}}
 var E={_caughtError:null,_hasCaughtError:!1,_rethrowError:null,_hasRethrowError:!1,invokeGuardedCallback:function(a,b,c,d,e,f,h,g,k){ka.apply(E,arguments)},invokeGuardedCallbackAndCatchFirstError:function(a,b,c,d,e,f,h,g,k){E.invokeGuardedCallback.apply(this,arguments);if(E.hasCaughtError()){var v=E.clearCaughtError();E._hasRethrowError||(E._hasRethrowError=!0,E._rethrowError=v)}},rethrowCaughtError:function(){return ma.apply(E,arguments)},hasCaughtError:function(){return E._hasCaughtError},clearCaughtError:function(){if(E._hasCaughtError){var a=
@@ -2861,17 +2872,17 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var React = __webpack_require__(1);
-var invariant = __webpack_require__(7);
-var warning = __webpack_require__(8);
-var ExecutionEnvironment = __webpack_require__(10);
-var _assign = __webpack_require__(3);
-var emptyFunction = __webpack_require__(2);
-var checkPropTypes = __webpack_require__(9);
-var getActiveElement = __webpack_require__(11);
-var shallowEqual = __webpack_require__(12);
-var containsNode = __webpack_require__(13);
-var emptyObject = __webpack_require__(4);
+var React = __webpack_require__(2);
+var invariant = __webpack_require__(8);
+var warning = __webpack_require__(9);
+var ExecutionEnvironment = __webpack_require__(11);
+var _assign = __webpack_require__(4);
+var emptyFunction = __webpack_require__(3);
+var checkPropTypes = __webpack_require__(10);
+var getActiveElement = __webpack_require__(12);
+var shallowEqual = __webpack_require__(13);
+var containsNode = __webpack_require__(14);
+var emptyObject = __webpack_require__(5);
 var hyphenateStyleName = __webpack_require__(23);
 var camelizeStyleName = __webpack_require__(25);
 
@@ -19469,7 +19480,7 @@ module.exports = reactDom;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 23 */
@@ -19632,18 +19643,18 @@ module.exports = camelize;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Dropzone_jsx__ = __webpack_require__(32);
 
 
 
 
 
-__webpack_require__(6);
+__webpack_require__(7);
 
 class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
@@ -19655,41 +19666,45 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     };
   }
 
-  getClassName() {
-    return this.props.data.type === "base" ? "block-children-container" : "block-children-container pad-left";
-  }
-
   onContentChange(e) {
     var newData = Object.assign({}, this.props.data);
     newData.text = e.target["innerText"];
-    this.props.updateData(newData, this.props.id, false);
+    this.props.updateData(newData, this.props.id, false, [this.props.id]);
   }
 
-  updateData(newChildData, id, shouldDelete) {
+  updateData(newChildData, id, shouldDelete, newBlockPath) {
     var newData = Object.assign({}, this.props.data);
-    newData.children[id] = newChildData;
-    this.props.updateData(newData, this.props.id, shouldDelete);
+
+    if (newChildData !== null) {
+      newData.children[id] = newChildData;
+    } else {
+      // console.log(newData.children.slice())
+      // console.log(this.props.addedAtPath)
+      console.log(newData.children);
+      newData.children.splice(id, 1);
+    }
+
+    newBlockPath.push(this.props.id);
+    this.props.updateData(newData, this.props.id, shouldDelete, newBlockPath);
   }
 
   handleAppendAfter(id) {
-    console.log(`put ${this.props.draggingContent.text} inside of ${this.props.data.text}`);
     var newData = Object.assign({}, this.props.data);
     newData.children.splice(id + 1, 0, this.props.draggingContent);
-    this.props.updateData(newData, this.props.id, true);
+    this.props.updateData(newData, this.props.id, true, [id, this.props.id]);
   }
 
   updateDragging(newDragging, draggingContent, path) {
-    path.push(this.props.id);
+    path.push(this.props.data.id);
     this.props.updateDragging(newDragging, draggingContent, path);
   }
 
   _startDrag() {
-    console.log("start drag");
     this.setState({
       canDrag: true,
       isBeingDragged: true
     });
-    this.props.updateDragging(true, this.props.data, [this.props.id]);
+    this.props.updateDragging(true, Object.assign({}, this.props.data), [this.props.data.id]);
   }
 
   _stopDrag() {
@@ -19701,15 +19716,13 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   _appendAfter() {
-    console.log(`append after: ${this.props.data.text}`);
     this.props.handleAppendAfter(this.props.id);
   }
 
   _appendFirstChild() {
-    console.log(`append within: ${this.props.data.text || 'base'}`);
     var newData = Object.assign({}, this.props.data);
     newData.children.unshift(this.props.draggingContent);
-    this.props.updateData(newData, this.props.id, true);
+    this.props.updateData(newData, this.props.id, true, [0, this.props.id]);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -19741,7 +19754,7 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   renderLeftPad() {
-    if (this.props.data.type !== "base") {
+    if (this.props.data.type !== "page") {
       //TODO on dropped in this dropzone it should append the dragged block after this block
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
@@ -19767,7 +19780,8 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
           isDragging: this.props.isDragging,
           handleAppendAfter: this.handleAppendAfter.bind(this),
           draggingContent: this.props.draggingContent,
-          parentBeingDragged: this.state.isBeingDragged
+          parentBeingDragged: this.state.isBeingDragged,
+          addedAtPath: this.props.addedAtPath
         });
       });
     }
@@ -19808,7 +19822,7 @@ exports = module.exports = __webpack_require__(29)(false);
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 960px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block-content {\n  position: relative;\n  background: pink;\n  height: 24px;\n  -webkit-user-drag: element; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    left: -20px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 16px;\n      height: 24px;\n      cursor: -webkit-grab;\n      background-color: lightgray;\n      z-index: 20; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    padding-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  -webkit-user-modify: read-write-plaintext-only; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.show.active .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: lightblue; }\n    .dropzone.show.active .dropzone-indicator.hover {\n      background: blue; }\n  .dropzone.show.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.show.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.hide {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 960px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block-content {\n  position: relative;\n  background: pink;\n  height: 24px;\n  -webkit-user-drag: element; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    left: -20px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 16px;\n      height: 24px;\n      cursor: -webkit-grab;\n      background-color: lightgray;\n      z-index: 20; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    padding-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.show.active .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: lightblue; }\n    .dropzone.show.active .dropzone-indicator.hover {\n      background: blue; }\n  .dropzone.show.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.show.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.hide {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
 
 // exports
 
@@ -20354,16 +20368,16 @@ module.exports = function (css) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentEditable_jsx__ = __webpack_require__(15);
 
 
 
 
-__webpack_require__(6);
+__webpack_require__(7);
 
 class Dropzone extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   constructor(props) {
