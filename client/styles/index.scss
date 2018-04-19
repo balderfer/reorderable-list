@@ -1,7 +1,10 @@
 @import "reset";
 
+$indentWidth: 40px;
+$pageWidth: 560px;
+
 .content {
-  max-width: 960px;
+  max-width: $pageWidth;
   margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;
 }
@@ -13,12 +16,13 @@ h1 {
 }
 
 .block {
-  // -webkit-user-drag: element;
+  &.highlight {
+    background: #e4f3f8;
+  }
 }
 
 .block-content {
   position: relative;
-  background: pink;
   height: 24px;
 
   > .block-actions {
@@ -49,11 +53,11 @@ h1 {
   flex-direction: row;
 
   .pad-left {
-    width: 40px;
+    width: $indentWidth;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-right: 2px;
+    margin-right: 2px;
   }
 
   .block-children {
@@ -74,16 +78,26 @@ h1 {
   position: relative;
 
   &.active {
-    .dropzone-indicator {
+    &.hovered .dropzone-indicator {
       height: 4px;
       width: 100%;
       display: block;
       position: absolute;
       bottom: 0;
-      background: lightblue;
-      
-      &.hover {
-        background: blue;
+      background: blue;
+
+      .dropzone-indicator-levels-container {
+        position: absolute;
+        top: 0;
+        right: 100%;
+        display: flex;
+
+        .dropzone-indicator-level {
+          background: lightblue;
+          height: 4px;
+          width: $indentWidth;
+          margin-right: 2px;
+        }
       }
     }
 

@@ -122,6 +122,7 @@ export default class Index extends React.Component {
         <Block
           key={0}
           index={0}
+          level={-1}
           data={this.state.data}
           updateData={this.updateData}
           updateDrag={this.updateDrag}

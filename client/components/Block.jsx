@@ -26,7 +26,8 @@ export default class Block extends React.Component {
 
     this.state = {
       canDrag: false,
-      beingDragged: false
+      beingDragged: false,
+      highlight: false
     }
 
     this.updateData = this.updateData.bind(this);
@@ -36,6 +37,8 @@ export default class Block extends React.Component {
     this.onAppendChild = this.onAppendChild.bind(this)
     this.onAppendAfter = this.onAppendAfter.bind(this)
     this.appendAfter = this.appendAfter.bind(this)
+    this.onChildHoverStart = this.onChildHoverStart.bind(this);
+    this.onChildHoverEnd = this.onChildHoverEnd.bind(this);
   }
 
 
@@ -105,6 +108,14 @@ export default class Block extends React.Component {
     this.props.updateData(newData, this.props.index, false);
   }
 
+  onChildHoverStart() {
+    if (this.props.data.type !== "page") this.setState({ highlight: true });
+  }
+
+  onChildHoverEnd() {
+    if (this.props.data.type !== "page") this.setState({ highlight: false });
+  }
+
   startDrag(e) {
     e.stopPropagation();
     this.setState({ beingDragged: true });
@@ -151,8 +162,11 @@ export default class Block extends React.Component {
       return (
         <div className="pad-left">
           <Dropzone
-            active={!this.props.parentBeingDragged && this.props.dragging}
+            level={this.props.level}
+            active={this.props.dragging && !this.isBeingDragged()}
             handleDrop={this.onAppendAfter}
+            hoverStart={this.props.onChildHoverStart}
+            hoverEnd={this.props.onChildHoverEnd}
           />
         </div>
       );
@@ -166,6 +180,7 @@ export default class Block extends React.Component {
           <Block
             key={i}
             index={i}
+            level={this.props.level + 1}
             data={blockData}
             updateData={this.updateData}
             updateDrag={this.updateDrag}
@@ -174,6 +189,8 @@ export default class Block extends React.Component {
             dragObjectPath={this.props.dragObjectPath}
             parentBeingDragged={this.isBeingDragged()}
             appendAfter={this.appendAfter}
+            onChildHoverStart={this.onChildHoverStart}
+            onChildHoverEnd={this.onChildHoverEnd}
           />
         );
       })
@@ -183,7 +200,7 @@ export default class Block extends React.Component {
   render() {
     return (
       <div
-        className="block"
+        className={`block ${this.state.highlight ? 'highlight' : ''}`}
         draggable={this.state.canDrag ? true : false}
         onDragStart={this.startDrag}
         onDragEnd={this.stopDrag}
@@ -193,8 +210,11 @@ export default class Block extends React.Component {
           {this.renderLeftPad()}
           <div className="block-children">
             <Dropzone
+              level={this.props.level + 1}
               active={this.props.dragging && !this.isBeingDragged()}
               handleDrop={this.onAppendChild}
+              hoverStart={this.onChildHoverStart}
+              hoverEnd={this.onChildHoverEnd}
             />
             {this.renderChildren()}
           </div>

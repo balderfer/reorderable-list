@@ -13,20 +13,23 @@ export default class Dropzone extends React.Component {
     };
   }
 
-  _onDragEnter(e) {
+  onDragEnter(e) {
+    console.log("drag enter");
     this.setState({
       isHovered: true
     })
+    this.props.hoverStart();
   }
 
-  _onDragLeave(e) {
+  onDragLeave(e) {
     this.setState({
       isHovered: false
     })
+    this.props.hoverEnd();
   }
 
-  _onDrop(e) {
-    console.log("dropped!")
+  onDrop(e) {
+    console.log(this.props.level)
     this.setState({
       isHovered: false
     })
@@ -35,17 +38,39 @@ export default class Dropzone extends React.Component {
     }
   }
 
+  getWidthStyle() {
+    return {
+      width: 560 - (this.props.level * 40)
+    }
+  }
+
+  renderLevelIndicators() {
+    if (this.props.level > 0) {
+      var levelIndicators = [];
+      for (var i = 0; i < this.props.level; i++) {
+        levelIndicators.push(<div key={i} className="dropzone-indicator-level"/>)
+      }
+      return levelIndicators;
+    } else {
+      <div />
+    }
+  }
+
   render() {
     return (
       <div
-        className={`dropzone ${this.props.active ? 'active' : 'inactive'}`}
-        onDragEnter={this._onDragEnter.bind(this)}
+        className={`dropzone ${this.props.active ? 'active' : 'inactive'} ${this.state.isHovered ? 'hovered' : ''}`}
+        onDragEnter={this.onDragEnter.bind(this)}
         onDragOver={(e) => e.preventDefault()}
-        onDragLeave={this._onDragLeave.bind(this)}
-        onDrop={this._onDrop.bind(this)}
+        onDragLeave={this.onDragLeave.bind(this)}
+        onDrop={this.onDrop.bind(this)}
       >
         <div className={`dropzone-area ${this.state.isHovered ? 'hover' : ''}`}/>
-        <div className={`dropzone-indicator ${this.state.isHovered ? 'hover' : ''}`}/>
+        <div className={`dropzone-indicator ${this.state.isHovered ? 'hover' : ''}`} style={this.getWidthStyle()}>
+          <div className="dropzone-indicator-levels-container">
+            {this.renderLevelIndicators()}
+          </div>
+        </div>
       </div>
     );
   }
