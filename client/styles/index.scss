@@ -17,6 +17,7 @@ h1 {
 
 .block {
   border-radius: 3px;
+  width: 100%;
   &.highlight {
     background: #e4f3f8;
   }
@@ -49,7 +50,7 @@ h1 {
       cursor: -webkit-grab;
       border-radius: 3px;
       z-index: 20;
-      background-image: url('/images/grab-dots.svg');
+      background-image: url('http://benalderfer.com/reorderable-list/images/grab-dots.svg');
 
       &:hover {
         background-color: #f0efef;
@@ -83,9 +84,11 @@ h1 {
 }
 
 .editable-content {
+  width: 100%;
   display: flex;
   font-size: 16px;
   line-height: 24px;
+  outline: none;
 }
 
 .dropzone {

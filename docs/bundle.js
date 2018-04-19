@@ -492,7 +492,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(33)(content, options);
+var update = __webpack_require__(34)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2651,7 +2651,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const uuid = __webpack_require__(37);
+const uuid = __webpack_require__(38);
 
 __webpack_require__(6);
 
@@ -21413,8 +21413,8 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_underscore__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_underscore__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContentEditable_jsx__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Dropzone_jsx__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DragHandler_jsx__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Dropzone_jsx__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DragHandler_jsx__ = __webpack_require__(37);
 
 
 
@@ -21645,18 +21645,19 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(32)(false);
+exports = module.exports = __webpack_require__(33)(false);
 // imports
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 560px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block {\n  border-radius: 3px; }\n  .block.highlight {\n    background: #e4f3f8; }\n\n.block-content {\n  position: relative;\n  height: 28px;\n  display: flex; }\n  .block-content::before {\n    content: \"\";\n    width: 6px;\n    height: 6px;\n    background: black;\n    border-radius: 3px;\n    margin: 9px; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    right: -10000px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 18px;\n      height: 24px;\n      cursor: -webkit-grab;\n      border-radius: 3px;\n      z-index: 20;\n      background-image: url(\"/images/grab-dots.svg\"); }\n      .block-content > .block-actions > .drag-handler:hover {\n        background-color: #f0efef; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1;\n    right: 100%; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    margin-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  display: flex;\n  font-size: 16px;\n  line-height: 24px; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.active.hovered .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: #90cbe3; }\n    .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container {\n      position: absolute;\n      top: 0;\n      right: 100%;\n      display: flex; }\n      .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container .dropzone-indicator-level {\n        background: #b5dcec;\n        height: 4px;\n        width: 40px;\n        margin-right: 2px; }\n  .dropzone.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.inactive {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 560px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block {\n  border-radius: 3px;\n  width: 100%; }\n  .block.highlight {\n    background: #e4f3f8; }\n\n.block-content {\n  position: relative;\n  height: 28px;\n  display: flex; }\n  .block-content::before {\n    content: \"\";\n    width: 6px;\n    height: 6px;\n    background: black;\n    border-radius: 3px;\n    margin: 9px; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    right: -10000px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 18px;\n      height: 24px;\n      cursor: -webkit-grab;\n      border-radius: 3px;\n      z-index: 20;\n      background-image: url(\"http://benalderfer.com/reorderable-list/images/grab-dots.svg\"); }\n      .block-content > .block-actions > .drag-handler:hover {\n        background-color: #f0efef; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1;\n    right: 100%; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    margin-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  width: 100%;\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  outline: none; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.active.hovered .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: #90cbe3; }\n    .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container {\n      position: absolute;\n      top: 0;\n      right: 100%;\n      display: flex; }\n      .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container .dropzone-indicator-level {\n        background: #b5dcec;\n        height: 4px;\n        width: 40px;\n        margin-right: 2px; }\n  .dropzone.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.inactive {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 32 */
+/* 32 */,
+/* 33 */
 /***/ (function(module, exports) {
 
 /*
@@ -21738,7 +21739,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -21784,7 +21785,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(34);
+var	fixUrls = __webpack_require__(35);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -22097,7 +22098,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 
@@ -22192,7 +22193,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22285,7 +22286,7 @@ class Dropzone extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22315,11 +22316,11 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(38);
-var bytesToUuid = __webpack_require__(39);
+var rng = __webpack_require__(39);
+var bytesToUuid = __webpack_require__(40);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -22430,7 +22431,7 @@ module.exports = v1;
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -22468,7 +22469,7 @@ if (getRandomValues) {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports) {
 
 /**
