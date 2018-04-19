@@ -14,7 +14,6 @@ export default class Dropzone extends React.Component {
   }
 
   onDragEnter(e) {
-    console.log("drag enter");
     this.setState({
       isHovered: true
     })
@@ -29,11 +28,11 @@ export default class Dropzone extends React.Component {
   }
 
   onDrop(e) {
-    console.log(this.props.level)
     this.setState({
       isHovered: false
     })
     if (this.props.active) {
+      this.props.hoverEnd();
       this.props.handleDrop();
     }
   }
