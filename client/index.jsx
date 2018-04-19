@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'underscore';
 import Block from './components/Block.jsx';
+const uuid = require('uuid/v1');
 
 require('./styles/index.scss');
 
@@ -8,38 +10,38 @@ export default class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDragging: false,
-      draggingContent: null,
-      path: null,
+      dragging: false,
+      dragObject: null,
+      dragObjectPath: null,
       data: {
         type: "page",
-        id: "1234",
+        id: uuid(),
         children: [
           {
             type: "bullet",
-            id: "1235",
+            id: uuid(),
             text: "Douglas Englebart",
             children: []
           },
           {
             type: "bullet",
-            id: "1236",
+            id: uuid(),
             text: "Alan Kay",
             children: [
               {
                 type: "bullet",
-                id: "1237",
+                id: uuid(),
                 text: "Xerox PARC",
                 children: [
                   {
                     type: "bullet",
-                    id: "1238",
+                    id: uuid(),
                     text: "Dynabook",
                     children: []
                   },
                   {
                     type: "bullet",
-                    id: "1239",
+                    id: uuid(),
                     text: "Smalltalk",
                     children: []
                   }
@@ -47,7 +49,7 @@ export default class Index extends React.Component {
               },
               {
                 type: "bullet",
-                id: "1240",
+                id: uuid(),
                 text: "Viewpoints",
                 children: []
               }
@@ -55,57 +57,60 @@ export default class Index extends React.Component {
           },
           {
             type: "bullet",
-            id: "1241",
+            id: uuid(),
             text: "Bret Victor",
             children: []
           }
         ]
       }
     }
+
+    this.updateDrag = this.updateDrag.bind(this)
+    this.updateData = this.updateData.bind(this)
   }
 
   // returns newData which has the block deleted.
   // takes data which is the scoped data for that level of the tree
   // takes path which is an array of indexes at which the block to be deleted is located
   // while there is more than one index left we 
-  deleteBlock(data, path, newBlockPath) {
-    if (path.length > 1) {
-      // pop and store the current index
-      var index = path.pop();
-      // recursively call deleteBlock with now popped path
-      var newChildData = this.deleteBlock(data.children[index], path);
+  deleteBlock(data, dragObjectPath) {
+    if (dragObjectPath.length > 1) {
+      var id = dragObjectPath.pop();
+      var index = _.findIndex(data.children, function(o) { return o.id === id });
+      var newChildData = this.deleteBlock(data.children[index], dragObjectPath);
       var newData = Object.assign({}, data);
       newData.children[index] = newChildData;
       return newData;
     } else {
-      console.log(data.children[path[0]]);
+      var id = dragObjectPath.pop();
+      var index = _.findIndex(data.children, function(o) { return o.id === id });
       var newData = Object.assign({}, data);
-      newData.children.splice(path[0], 1);
+      newData.children.splice(index, 1);
       return newData;
     }
 
   }
 
-  updateData(newData, id, shouldDelete, newBlockPath) {
+  updateData(newData, index, shouldDelete) {
     if (shouldDelete) {
-    //   console.log(`should delete ${this.state.path}`);
-    //   console.log(`block added at ${newBlockPath}`);
-    //   var path = this.state.path;
-    //   path.pop(); //ignoring the base container's index
-    //   newBlockPath.pop();
-    //   // newData = this.deleteBlock(newData, path, newBlockPath);
+      var idPath = this.state.dragObjectPath;
+      idPath.pop();
+      newData = this.deleteBlock(newData, idPath);
     }
+
     this.setState({
-      data: newData
+      data: newData,
+      dragging: this.state.dragging ? !shouldDelete : this.state.dragging
     });
   }
 
-  updateDragging(newDragging, draggingContent, path) {
-    console.log(path);
+  updateDrag(newDragging, newDragObject, idPath) {
+    console.log(newDragging);
+    if (newDragging) newDragObject.id = uuid();
     this.setState({
-      isDragging: newDragging,
-      draggingContent: draggingContent,
-      path: path
+      dragging: newDragging,
+      dragObject: newDragObject,
+      dragObjectPath: idPath
     });
   }
 
@@ -116,14 +121,14 @@ export default class Index extends React.Component {
 
         <Block
           key={0}
-          id={0}
+          index={0}
           data={this.state.data}
-          updateData={this.updateData.bind(this)}
-          isDragging={this.state.isDragging}
-          updateDragging={this.updateDragging.bind(this)}
-          draggingContent={this.state.draggingContent}
-          parentIsDragging={false}
-          addedAtPath={this.state.path}
+          updateData={this.updateData}
+          updateDrag={this.updateDrag}
+          dragging={this.state.dragging}
+          dragObject={this.state.dragObject}
+          dragObjectPath={this.state.dragObjectPath}
+          parentBeingDragged={false}
         />
       </div>
     );

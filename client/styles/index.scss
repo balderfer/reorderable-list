@@ -12,11 +12,14 @@ h1 {
   line-height: 1.1;
 }
 
+.block {
+  // -webkit-user-drag: element;
+}
+
 .block-content {
   position: relative;
   background: pink;
   height: 24px;
-  -webkit-user-drag: element;
 
   > .block-actions {
     opacity: 0;
@@ -70,7 +73,7 @@ h1 {
   flex-direction: column;
   position: relative;
 
-  &.show.active {
+  &.active {
     .dropzone-indicator {
       height: 4px;
       width: 100%;
@@ -101,7 +104,7 @@ h1 {
     }
   }
 
-  &.hide {
+  &.inactive {
     opacity: 0;
     pointer-events: none;
   }
