@@ -177,6 +177,7 @@ h1 {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  min-width: 196px;
 
   &-item {
     padding: 3px 14px;
