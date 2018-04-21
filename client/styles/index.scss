@@ -6,6 +6,7 @@ $pageWidth: 560px;
 .content {
   max-width: $pageWidth;
   margin: 0 auto;
+  margin-top: 60px;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;
 }
 
@@ -13,6 +14,7 @@ h1 {
   font-size: 38px;
   font-weight: 700;
   line-height: 1.1;
+  margin-bottom: 14px;
 }
 
 .block {
@@ -27,15 +29,6 @@ h1 {
   position: relative;
   height: 28px;
   display: flex;
-
-  &::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    background: black;
-    border-radius: 3px;
-    margin: 9px;
-  }
 
   > .block-actions {
     opacity: 0;
@@ -144,3 +137,94 @@ h1 {
   }
 
 }
+
+.content-wrapper {
+  width: 100%;
+  height: 28px;
+  position: relative;
+
+  &.blue {
+    background: #E8F6FC;
+  }
+
+  &.red {
+    background: #FFEBEB;
+  }
+
+  &.yellow {
+    background: #FFF8E8;
+  }
+
+  .editable-content::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 3px;
+    margin: 9px;
+  }
+}
+
+.block-options-menu {
+  position: absolute;
+  display: block;
+  z-index: 110;
+  background: white;
+  box-shadow: rgba(84, 70, 35, 0.3) 0px 6px 20px, rgba(84, 70, 35, 0.14) 0px 1px 3px, rgba(0, 0, 0, 0.08) 0px 0px 1px; //might have copied this from notion
+
+  padding: 8px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  &-item {
+    padding: 3px 14px;
+    display: flex;
+    flex-direction: row;
+    height: 28px;
+    box-sizing: border-box;
+
+    &:hover {
+      background: #F0EFEF;
+      cursor: default;
+    }
+
+    .preview {
+      width: 22px;
+      height: 22px;
+      border-radius: 2px;
+      border: 1px solid #D7D7D7;
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 18px;
+
+      &.blue {
+        background: #E8F6FC;
+      }
+
+      &.red {
+        background: #FFEBEB;
+      }
+
+      &.yellow {
+        background: #FFF8E8;
+      }
+    }
+
+    .label {
+      padding: 2px 0;
+      margin-left: 8px;
+    }
+  }
+}
+
+.menu-screen-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+}
+

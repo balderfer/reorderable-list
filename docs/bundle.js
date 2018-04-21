@@ -492,7 +492,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(34)(content, options);
+var update = __webpack_require__(33)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2651,7 +2651,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const uuid = __webpack_require__(38);
+const uuid = __webpack_require__(37);
 
 __webpack_require__(6);
 
@@ -21413,8 +21413,10 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_underscore__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_underscore__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContentEditable_jsx__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Dropzone_jsx__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DragHandler_jsx__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Dropzone_jsx__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DragHandler_jsx__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BlockContent_jsx__ = __webpack_require__(40);
+
 
 
 
@@ -21454,6 +21456,7 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     this.appendAfter = this.appendAfter.bind(this);
     this.onChildHoverStart = this.onChildHoverStart.bind(this);
     this.onChildHoverEnd = this.onChildHoverEnd.bind(this);
+    this.changeColor = this.changeColor.bind(this);
   }
 
   /* RECURSIVE METHODS */
@@ -21534,7 +21537,6 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
   }
 
   stopDrag(e) {
-    console.log("stopped dragging");
     e.stopPropagation();
     this.setState({ beingDragged: false });
     this.props.updateDrag(false, null);
@@ -21548,14 +21550,24 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     this.setState({ canDrag: false });
   }
 
+  changeColor(color) {
+    var newData = Object.assign({}, this.props.data);
+    if (!newData.options) newData.options = {};
+    newData.options.color = color;
+    this.props.updateData(newData, this.props.index, false);
+  }
+
   renderBlockContent() {
     if (this.props.data.type === "bullet") {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'block-content' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContentEditable_jsx__["a" /* default */], {
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__BlockContent_jsx__["a" /* default */], {
           onContentChange: this.onContentChange.bind(this),
-          text: this.props.data.text
+          text: this.props.data.text,
+          type: this.props.data.type,
+          color: this.props.data.options ? this.props.data.options.color : null,
+          changeColor: this.changeColor
         }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
@@ -21645,19 +21657,18 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(33)(false);
+exports = module.exports = __webpack_require__(32)(false);
 // imports
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 560px;\n  margin: 0 auto;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1; }\n\n.block {\n  border-radius: 3px;\n  width: 100%; }\n  .block.highlight {\n    background: #e4f3f8; }\n\n.block-content {\n  position: relative;\n  height: 28px;\n  display: flex; }\n  .block-content::before {\n    content: \"\";\n    width: 6px;\n    height: 6px;\n    background: black;\n    border-radius: 3px;\n    margin: 9px; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    right: -10000px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 18px;\n      height: 24px;\n      cursor: -webkit-grab;\n      border-radius: 3px;\n      z-index: 20;\n      background-image: url(\"http://benalderfer.com/reorderable-list/images/grab-dots.svg\"); }\n      .block-content > .block-actions > .drag-handler:hover {\n        background-color: #f0efef; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1;\n    right: 100%; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    margin-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  width: 100%;\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  outline: none; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.active.hovered .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: #90cbe3; }\n    .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container {\n      position: absolute;\n      top: 0;\n      right: 100%;\n      display: flex; }\n      .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container .dropzone-indicator-level {\n        background: #b5dcec;\n        height: 4px;\n        width: 40px;\n        margin-right: 2px; }\n  .dropzone.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.inactive {\n    opacity: 0;\n    pointer-events: none; }\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, button cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl;\n  vertical-align: baseline; }\n\n@media only screen and (max-width: 768px) {\n  html, body {\n    font-size: 12px; } }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n.content {\n  max-width: 560px;\n  margin: 0 auto;\n  margin-top: 60px;\n  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serifl; }\n\nh1 {\n  font-size: 38px;\n  font-weight: 700;\n  line-height: 1.1;\n  margin-bottom: 14px; }\n\n.block {\n  border-radius: 3px;\n  width: 100%; }\n  .block.highlight {\n    background: #e4f3f8; }\n\n.block-content {\n  position: relative;\n  height: 28px;\n  display: flex; }\n  .block-content > .block-actions {\n    opacity: 0;\n    position: absolute;\n    top: 0;\n    right: -10000px;\n    z-index: 20; }\n    .block-content > .block-actions > .drag-handler {\n      width: 18px;\n      height: 24px;\n      cursor: -webkit-grab;\n      border-radius: 3px;\n      z-index: 20;\n      background-image: url(\"http://benalderfer.com/reorderable-list/images/grab-dots.svg\"); }\n      .block-content > .block-actions > .drag-handler:hover {\n        background-color: #f0efef; }\n  .block-content:hover > .block-actions:not(.dragging) {\n    opacity: 1;\n    right: 100%; }\n\n.block-children-container {\n  display: flex;\n  flex-direction: row; }\n  .block-children-container .pad-left {\n    width: 40px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    margin-right: 2px; }\n  .block-children-container .block-children {\n    flex: 1; }\n\n.editable-content {\n  width: 100%;\n  display: flex;\n  font-size: 16px;\n  line-height: 24px;\n  outline: none; }\n\n.dropzone {\n  min-height: 4px;\n  flex: 1;\n  flex-direction: column;\n  position: relative; }\n  .dropzone.active.hovered .dropzone-indicator {\n    height: 4px;\n    width: 100%;\n    display: block;\n    position: absolute;\n    bottom: 0;\n    background: #90cbe3; }\n    .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container {\n      position: absolute;\n      top: 0;\n      right: 100%;\n      display: flex; }\n      .dropzone.active.hovered .dropzone-indicator .dropzone-indicator-levels-container .dropzone-indicator-level {\n        background: #b5dcec;\n        height: 4px;\n        width: 40px;\n        margin-right: 2px; }\n  .dropzone.active .dropzone-area {\n    background: lightblue;\n    opacity: 0;\n    width: 100%;\n    position: absolute;\n    top: -12px;\n    bottom: -12px;\n    z-index: 10; }\n    .dropzone.active .dropzone-area.hover {\n      opacity: 0;\n      background: blue; }\n  .dropzone.inactive {\n    opacity: 0;\n    pointer-events: none; }\n\n.content-wrapper {\n  width: 100%;\n  height: 28px;\n  position: relative; }\n  .content-wrapper.blue {\n    background: #E8F6FC; }\n  .content-wrapper.red {\n    background: #FFEBEB; }\n  .content-wrapper.yellow {\n    background: #FFF8E8; }\n  .content-wrapper .editable-content::before {\n    content: \"\";\n    display: block;\n    width: 6px;\n    height: 6px;\n    background: black;\n    border-radius: 3px;\n    margin: 9px; }\n\n.block-options-menu {\n  position: absolute;\n  display: block;\n  z-index: 110;\n  background: white;\n  box-shadow: rgba(84, 70, 35, 0.3) 0px 6px 20px, rgba(84, 70, 35, 0.14) 0px 1px 3px, rgba(0, 0, 0, 0.08) 0px 0px 1px;\n  padding: 8px 0;\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column; }\n  .block-options-menu-item {\n    padding: 3px 14px;\n    display: flex;\n    flex-direction: row;\n    height: 28px;\n    box-sizing: border-box; }\n    .block-options-menu-item:hover {\n      background: #F0EFEF;\n      cursor: default; }\n    .block-options-menu-item .preview {\n      width: 22px;\n      height: 22px;\n      border-radius: 2px;\n      border: 1px solid #D7D7D7;\n      box-sizing: border-box;\n      text-align: center;\n      line-height: 18px; }\n      .block-options-menu-item .preview.blue {\n        background: #E8F6FC; }\n      .block-options-menu-item .preview.red {\n        background: #FFEBEB; }\n      .block-options-menu-item .preview.yellow {\n        background: #FFF8E8; }\n    .block-options-menu-item .label {\n      padding: 2px 0;\n      margin-left: 8px; }\n\n.menu-screen-cover {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: 100; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 32 */,
-/* 33 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /*
@@ -21739,7 +21750,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -21785,7 +21796,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(35);
+var	fixUrls = __webpack_require__(34);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -22098,7 +22109,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports) {
 
 
@@ -22193,7 +22204,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22286,7 +22297,7 @@ class Dropzone extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22316,11 +22327,11 @@ class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(39);
-var bytesToUuid = __webpack_require__(40);
+var rng = __webpack_require__(38);
+var bytesToUuid = __webpack_require__(39);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -22431,7 +22442,7 @@ module.exports = v1;
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -22469,7 +22480,7 @@ if (getRandomValues) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /**
@@ -22495,6 +22506,170 @@ function bytesToUuid(buf, offset) {
 }
 
 module.exports = bytesToUuid;
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_underscore__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_underscore__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContentEditable_jsx__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BlockMenu_jsx__ = __webpack_require__(41);
+
+
+
+
+
+
+class Block extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mouseX: 0,
+      mouseY: 0,
+      shouldShowMenu: false
+    };
+
+    this.onContextMenu = this.onContextMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+    this.changeColor = this.changeColor.bind(this);
+  }
+
+  getClassName() {
+    var className = "content-wrapper";
+    if (this.props.type === "bullet") className += " bullet";
+    if (this.props.color !== null) className += ` ${this.props.color}`;
+    return className;
+  }
+
+  onContextMenu(e) {
+    e.preventDefault();
+    this.setState({
+      mouseX: e.nativeEvent.offsetX,
+      mouseY: e.nativeEvent.offsetY,
+      shouldShowMenu: true
+    });
+  }
+
+  closeMenu() {
+    this.setState({
+      shouldShowMenu: false
+    });
+  }
+
+  changeColor(color) {
+    this.props.changeColor(color);
+    this.closeMenu();
+  }
+
+  renderBlockMenu() {
+    if (this.state.shouldShowMenu) {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__BlockMenu_jsx__["a" /* default */], {
+        closeMenu: this.closeMenu,
+        x: this.state.mouseX,
+        y: this.state.mouseY,
+        options: this.props.options,
+        changeColor: this.changeColor
+      });
+    } else {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null);
+    }
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: this.getClassName(),
+        onContextMenu: this.onContextMenu
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContentEditable_jsx__["a" /* default */], {
+        onContentChange: this.props.onContentChange,
+        text: this.props.text
+      }),
+      this.renderBlockMenu()
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Block;
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BlockMenuItem_jsx__ = __webpack_require__(42);
+
+
+
+class BlockMenu extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'block-options-menu', style: { left: this.props.x, top: this.props.y } },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__BlockMenuItem_jsx__["a" /* default */], { labelText: 'No Color', color: '', changeColor: this.props.changeColor }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__BlockMenuItem_jsx__["a" /* default */], { labelText: 'Blue Background', color: 'blue', changeColor: this.props.changeColor }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__BlockMenuItem_jsx__["a" /* default */], { labelText: 'Red Background', color: 'red', changeColor: this.props.changeColor }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__BlockMenuItem_jsx__["a" /* default */], { labelText: 'Yellow Background', color: 'yellow', changeColor: this.props.changeColor })
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'menu-screen-cover', onClick: this.props.closeMenu })
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = BlockMenu;
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class BlockMenuItem extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.props.changeColor(this.props.color);
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      "div",
+      { className: "block-options-menu-item", onClick: this.handleClick },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: `preview ${this.props.color}` },
+        "A"
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "label" },
+        this.props.labelText
+      )
+    );
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = BlockMenuItem;
 
 
 /***/ })

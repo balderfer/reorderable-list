@@ -4,6 +4,7 @@ import _ from 'underscore'
 import ContentEditable from './ContentEditable.jsx'
 import Dropzone from './Dropzone.jsx'
 import DragHandler from './DragHandler.jsx'
+import BlockContent from './BlockContent.jsx'
 
 require('../styles/index.scss');
 
@@ -39,6 +40,7 @@ export default class Block extends React.Component {
     this.appendAfter = this.appendAfter.bind(this)
     this.onChildHoverStart = this.onChildHoverStart.bind(this);
     this.onChildHoverEnd = this.onChildHoverEnd.bind(this);
+    this.changeColor = this.changeColor.bind(this);
   }
 
 
@@ -123,7 +125,6 @@ export default class Block extends React.Component {
   }
 
   stopDrag(e) {
-    console.log("stopped dragging");
     e.stopPropagation();
     this.setState({ beingDragged: false });
     this.props.updateDrag(false, null);
@@ -137,13 +138,23 @@ export default class Block extends React.Component {
     this.setState({ canDrag: false });
   }
 
+  changeColor(color) {
+    var newData = Object.assign({}, this.props.data);
+    if (!newData.options) newData.options = {};
+    newData.options.color = color;
+    this.props.updateData(newData, this.props.index, false);
+  }
+
   renderBlockContent() {
     if (this.props.data.type === "bullet") {
       return (
         <div className="block-content">
-          <ContentEditable
+          <BlockContent
             onContentChange={this.onContentChange.bind(this)}
             text={this.props.data.text}
+            type={this.props.data.type}
+            color={this.props.data.options ? this.props.data.options.color : null}
+            changeColor={this.changeColor}
           />
           <div className="block-actions">
             <DragHandler
